@@ -12,7 +12,7 @@ model Product {
   name        String     @unique
   description String?
   quantity    Int        @default(0)
-  alertLimite Int
+  alertLimit  Int
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
   status      Boolean    @default(true)
