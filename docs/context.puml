@@ -1,0 +1,20 @@
+@startuml Context
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+title [Context] Desafio Bradial
+
+SHOW_PERSON_PORTRAIT()
+
+AddRelTag("dashed", $lineStyle = DashedLine())
+
+Person(user, "Usuário")
+
+System(app, "APP", "Aplicação para gerenciar o estoque de produtos")
+
+System(email, "Serviço de Email", "Sistema de para enviar email")
+
+Rel(user, app, "Visualiza e controla o estoque de produtos")
+Rel(app, email, "Envia e-mail usando", $tags = "dashed")
+Rel(email, user, "Envia e-mail para", $tags = "dashed")
+
+@enduml

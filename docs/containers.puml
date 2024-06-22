@@ -1,0 +1,32 @@
+@startuml Containers
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+!define ICON https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/v2.4.0
+!includeurl ICON/devicons2/nextjs_line.puml
+!includeurl ICON/devicons2/nestjs.puml
+!includeurl ICON/devicons2/postgresql.puml
+
+title [Container] Desafio Bradial
+
+SHOW_PERSON_PORTRAIT()
+
+AddRelTag("dashed", $lineStyle = DashedLine())
+
+Person(user, "Usuário", "")
+
+System_Boundary(system, "APP") {
+    System(email, "Serviço de E-Mail", "Sistema para enviar e-mail")
+
+    Container(web, "Web", "NextJS", "Provem recursos para gerenciar o estoque de produtos", $sprite = "nextjs_line")
+    Container(api, "API", "NestJS", "Provem funcionalidades via JSON/HTTPS", $sprite = "nestjs")
+    ContainerDb(database, "Banco de Dados", "Oracle", "Armazena os produtos e as movimentações do estoque", $sprite = "postgresql")
+
+    Rel(user, web, "Visualiza e controla o estoque de produtos usando", "HTTPS", $tags = "dashed")
+    Rel(web, api, "Realiza chamadas API para", "JSON/HTTPS", $tags = "dashed")
+    Rel(api, database, "Lê e escreve em", "PostgreSQL Protocol", $tags = "dashed")
+    Rel(api, email, "Envia e-mail usando", "Apache Kafka: notification.email", $tags = "dashed")
+}
+
+Rel(email, user, "Envia e-mail para", "SMTP", $tags = "dashed")
+
+@enduml
