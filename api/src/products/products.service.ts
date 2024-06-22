@@ -66,6 +66,22 @@ export class ProductsService {
    */
   async findOneById(id: number) {
     const product = await this.prismaService.product.findUnique({
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        quantity: true,
+        alertLimit: true,
+        movements: {
+          select: {
+            id: true,
+            type: true,
+            quantity: true,
+            createdAt: true,
+          },
+        },
+        status: true,
+      },
       where: { id },
     });
 
