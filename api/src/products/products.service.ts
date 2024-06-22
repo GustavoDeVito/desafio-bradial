@@ -49,6 +49,7 @@ export class ProductsService {
 
   /**
    * @description Create Product.
+   * @param createProductDto DTO of product.
    */
   async create(createProductDto: CreateProductDto) {
     const existProduct = await this.findOneByName(createProductDto.name);
