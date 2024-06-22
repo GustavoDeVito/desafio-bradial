@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id          Int        @id @default(autoincrement())
+  name        String     @unique
+  description String?
+  quantity    Int        @default(0)
+  alertLimite Int
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  status      Boolean    @default(true)
+  Moviments   Moviment[]
+
+  @@map("products")
+}
+
+model Moviment {
+  id        Int          @id @default(autoincrement())
+  type      MovimentType
+  products  Product      @relation(fields: [productId], references: [id])
+  productId Int
+  quantity  Int
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  status    Boolean      @default(true)
+
+  @@map("moviments")
+}
+
+enum MovimentType {
+  INPUT
+  OUTPUT
+}
