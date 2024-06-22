@@ -22,3 +22,26 @@ Content-Type: application/json
     "alertLimit": 2,
     "status": true
 }
+
+### @name ListMovements
+GET http://localhost:3000/moviments HTTP/1.1
+
+### @name CreateMovement_INPUT
+POST http://localhost:3000/moviments HTTP/1.1
+Content-Type: application/json
+
+{
+    "type": "INPUT",
+    "productId": 4,
+    "quantity": 100
+}
+
+### @name CreateMovement_OUTPUT
+POST http://localhost:3000/moviments HTTP/1.1
+Content-Type: application/json
+
+{
+    "type": "OUTPUT",
+    "productId": 4,
+    "quantity": 10
+}
