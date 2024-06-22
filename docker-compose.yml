@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  postgresql:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: bradial
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: pass
+    volumes:
+      - ./database:/var/lib/postgresql/data
