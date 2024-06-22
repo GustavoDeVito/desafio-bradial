@@ -3,6 +3,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { ProductsService } from 'src/products/products.service';
 import { CreateMovementDto } from './dto/create-movement.dto';
 import { MovementType } from '@prisma/client';
+import { QueryMovementDto } from './dto/query-movement.dto';
 
 @Injectable()
 export class MovementsService {
@@ -13,9 +14,42 @@ export class MovementsService {
 
   /**
    * @description List movements of products.
+   * @param queryMovementDto DTO for movements listing.
    */
-  findAll() {
-    return this.prismaService.movement.findMany();
+  async findAll(queryMovementDto: QueryMovementDto) {
+    const { page, pageSize } = queryMovementDto;
+
+    const skip = (page - 1) * pageSize;
+    const take = pageSize;
+
+    const movements = await this.prismaService.movement.findMany({
+      select: {
+        id: true,
+        type: true,
+        products: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+        quantity: true,
+        createdAt: true,
+      },
+      skip,
+      take,
+      orderBy: {
+        createdAt: 'asc',
+      },
+    });
+
+    const totalMovements = await this.prismaService.movement.count();
+
+    return {
+      data: movements,
+      items: totalMovements,
+      pages: Math.ceil(totalMovements / pageSize),
+      page,
+    };
   }
 
   /**

@@ -27,7 +27,7 @@ Content-Type: application/json
 }
 
 ### @name ListMovements
-GET http://localhost:3000/movements HTTP/1.1
+GET http://localhost:3000/movements?page=1&pageSize=5 HTTP/1.1
 
 ### @name CreateMovement_INPUT
 POST http://localhost:3000/movements HTTP/1.1
