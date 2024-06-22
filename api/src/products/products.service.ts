@@ -6,20 +6,63 @@ import {
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { QueryProductDto } from './dto/query-product.dto';
 
 @Injectable()
 export class ProductsService {
   constructor(private prismaService: PrismaService) {}
 
   /**
-   * @description List Products.
+   * @description List products.
+   * @param queryProductDto DTO for product listing.
    */
-  findAll() {
-    return this.prismaService.product.findMany();
+  async findAll(queryProductDto: QueryProductDto) {
+    const { search, page, pageSize } = queryProductDto;
+
+    const skip = (page - 1) * pageSize;
+    const take = pageSize;
+
+    const products = await this.prismaService.product.findMany({
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        quantity: true,
+        alertLimit: true,
+        status: true,
+      },
+      where: {
+        name: {
+          contains: search,
+          mode: 'insensitive',
+        },
+      },
+      skip,
+      take,
+      orderBy: {
+        name: 'asc',
+      },
+    });
+
+    const totalProducts = await this.prismaService.product.count({
+      where: {
+        name: {
+          contains: search,
+          mode: 'insensitive',
+        },
+      },
+    });
+
+    return {
+      data: products,
+      items: totalProducts,
+      pages: Math.ceil(totalProducts / pageSize),
+      page,
+    };
   }
 
   /**
-   * @description List Product by id.
+   * @description List product by id.
    */
   async findOneById(id: number) {
     const product = await this.prismaService.product.findUnique({
@@ -34,7 +77,7 @@ export class ProductsService {
   }
 
   /**
-   * @description List Product by name.
+   * @description List product by name.
    */
   private findOneByName(name: string) {
     return this.prismaService.product.findFirst({
@@ -48,7 +91,7 @@ export class ProductsService {
   }
 
   /**
-   * @description Create Product.
+   * @description Create product.
    * @param createProductDto DTO of product.
    */
   async create(createProductDto: CreateProductDto) {
@@ -73,7 +116,7 @@ export class ProductsService {
   }
 
   /**
-   * @description Update Product by id.
+   * @description Update product by id.
    * @param id Identify of product.
    * @param updateProductDto DTO of product.
    */
