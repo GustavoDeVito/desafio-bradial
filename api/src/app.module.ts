@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { PrismaModule } from './prisma/prisma.module';
 import { ProductsModule } from './products/products.module';
-import { MovimentsModule } from './moviments/moviments.module';
+import { MovementsModule } from './movements/movements.module';
 
 @Module({
-  imports: [PrismaModule, ProductsModule, MovimentsModule],
+  imports: [PrismaModule, ProductsModule, MovementsModule],
 })
 export class AppModule {}

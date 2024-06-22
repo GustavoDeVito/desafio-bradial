@@ -16,12 +16,12 @@ model Product {
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
   status      Boolean    @default(true)
-  Moviments   Moviment[]
+  movements   Movement[]
 
   @@map("products")
 }
 
-model Moviment {
+model Movement {
   id        Int          @id @default(autoincrement())
   type      MovimentType
   products  Product      @relation(fields: [productId], references: [id])
@@ -31,7 +31,7 @@ model Moviment {
   updatedAt DateTime     @updatedAt
   status    Boolean      @default(true)
 
-  @@map("moviments")
+  @@map("movements")
 }
 
 enum MovimentType {

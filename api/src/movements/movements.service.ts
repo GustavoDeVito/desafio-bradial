@@ -1,11 +1,11 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { ProductsService } from 'src/products/products.service';
-import { CreateMovimentDto } from './dto/create-moviment.dto';
+import { CreateMovementDto } from './dto/create-movement.dto';
 import { MovimentType } from '@prisma/client';
 
 @Injectable()
-export class MovimentsService {
+export class MovementsService {
   constructor(
     private prismaService: PrismaService,
     private readonly productsService: ProductsService,
@@ -15,23 +15,23 @@ export class MovimentsService {
    * @description List moviments of products.
    */
   findAll() {
-    return this.prismaService.moviment.findMany();
+    return this.prismaService.movement.findMany();
   }
 
   /**
    * @description Create Movement of product.
-   * @param createMovimentDto DTO of moviment.
+   * @param createMovementDto DTO of moviment.
    */
-  async create(createMovimentDto: CreateMovimentDto) {
+  async create(createMovementDto: CreateMovementDto) {
     const product = await this.productsService.findOneById(
-      createMovimentDto.productId,
+      createMovementDto.productId,
     );
 
     await this.prismaService.$transaction(async (tx) => {
       const newProductQuantity =
-        createMovimentDto.type === MovimentType.INPUT
-          ? product.quantity + createMovimentDto.quantity
-          : product.quantity - createMovimentDto.quantity;
+        createMovementDto.type === MovimentType.INPUT
+          ? product.quantity + createMovementDto.quantity
+          : product.quantity - createMovementDto.quantity;
 
       if (newProductQuantity < 0) {
         throw new BadRequestException(
@@ -40,11 +40,11 @@ export class MovimentsService {
       }
 
       await tx.product.update({
-        where: { id: createMovimentDto.productId },
+        where: { id: createMovementDto.productId },
         data: { quantity: newProductQuantity },
       });
 
-      await tx.moviment.create({ data: createMovimentDto });
+      await tx.movement.create({ data: createMovementDto });
     });
   }
 }

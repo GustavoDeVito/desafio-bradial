@@ -1,7 +1,7 @@
 import { MovimentType } from '@prisma/client';
 import { IsEnum, IsInt, Min } from 'class-validator';
 
-export class CreateMovimentDto {
+export class CreateMovementDto {
   @IsEnum(MovimentType)
   type: MovimentType;
 
