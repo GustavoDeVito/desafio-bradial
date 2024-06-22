@@ -12,7 +12,8 @@ SHOW_PERSON_PORTRAIT()
 
 AddRelTag("dashed", $lineStyle = DashedLine())
 
-Person(user, "Usuário", "")
+Person(user, "Usuário", "Pessoa responsável por cadastras novos produtos e a movimentação do estoque")
+Person(manager, "Gerente", "Pessoa responsável pelo estoque")
 
 System_Boundary(system, "APP") {
     System(email, "Serviço de E-Mail", "Sistema para enviar e-mail")
@@ -27,6 +28,6 @@ System_Boundary(system, "APP") {
     Rel(api, email, "Envia e-mail usando", "Apache Kafka: notification.email", $tags = "dashed")
 }
 
-Rel(email, user, "Envia e-mail para", "SMTP", $tags = "dashed")
+Rel(email, manager, "Envia e-mail para", "SMTP", $tags = "dashed")
 
 @enduml

@@ -7,14 +7,15 @@ SHOW_PERSON_PORTRAIT()
 
 AddRelTag("dashed", $lineStyle = DashedLine())
 
-Person(user, "Usuário")
+Person(user, "Usuário", "Pessoa responsável por cadastras novos produtos e a movimentação do estoque")
+Person(manager, "Gerente", "Pessoa responsável pelo estoque")
 
 System(app, "APP", "Aplicação para gerenciar o estoque de produtos")
 
-System(email, "Serviço de Email", "Sistema de para enviar email")
+System(email, "Serviço de Email", "Sistema para enviar email")
 
 Rel(user, app, "Visualiza e controla o estoque de produtos")
 Rel(app, email, "Envia e-mail usando", $tags = "dashed")
-Rel(email, user, "Envia e-mail para", $tags = "dashed")
+Rel(email, manager, "Envia e-mail para", $tags = "dashed")
 
 @enduml

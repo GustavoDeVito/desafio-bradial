@@ -12,7 +12,7 @@ Desafio da Bradial para desenvolver um sistema para gestão de estoque de produt
   - Exibir uma lista paginada de todos os produtos disponíveis no estoque.
   - Permitir a busca de produtos por nome ou código.
 - **Cadastrar um novo produto**
-  - Formulário para inserir detalhes do produto (nome e descrição).
+  - Formulário para inserir detalhes do produto (nome, descrição e alerta de limite).
   - Validação dos dados do produto antes do cadastro.
   - Feedback de resposta ao usuário.
 - **Editar um produto existente**
@@ -29,3 +29,5 @@ Desafio da Bradial para desenvolver um sistema para gestão de estoque de produt
   - Formulário para registrar a entrada de novos produtos no estoque.
   - Formulário para registrar a saída de produtos do estoque.
   - Exibir um histórico de entradas e saídas de cada produto.
+- **Alerta de Limite**
+  - Caso o registro de saída do produto viole o alerta de limite, será enviado um email ao gerente do estoque.
