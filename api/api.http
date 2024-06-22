@@ -2,14 +2,23 @@
 GET http://localhost:3000/products HTTP/1.1
 
 ### @name ListProduct
-GET http://localhost:3000/products/1 HTTP/1.1
+GET http://localhost:3000/products/4 HTTP/1.1
 
 ### @name CreateProduct
 POST http://localhost:3000/products HTTP/1.1
 Content-Type: application/json
 
 {
+    "name": "Escova de dente",
+    "alertLimit": 10
+}
+
+### @name UpdateProduct
+PATCH http://localhost:3000/products/4 HTTP/1.1
+Content-Type: application/json
+
+{
     "name": "Pasta de dente",
-    "description": "Pasta de dente da marca CG.",
-    "alertLimit": 0
+    "alertLimit": 2,
+    "status": true
 }

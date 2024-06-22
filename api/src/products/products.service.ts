@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateProductDto } from './dto/create-product.dto';
+import { UpdateProductDto } from './dto/update-product.dto';
 
 @Injectable()
 export class ProductsService {
@@ -68,5 +69,28 @@ export class ProductsService {
     });
 
     return createProduct;
+  }
+
+  /**
+   * @description Update Product by id.
+   * @param id Identify of product.
+   * @param updateProductDto DTO of product.
+   */
+  async update(id: number, updateProductDto: UpdateProductDto) {
+    await this.findOneById(id);
+
+    // verify duplicate
+    if (updateProductDto?.name) {
+      const product = await this.findOneByName(updateProductDto.name);
+
+      if (product?.name && product?.id !== id) {
+        throw new ConflictException('Já exite um produto com este nome.');
+      }
+    }
+
+    await this.prismaService.product.update({
+      where: { id },
+      data: updateProductDto,
+    });
   }
 }
