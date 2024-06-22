@@ -10,10 +10,16 @@ import { CreateProductDto } from './dto/create-product.dto';
 export class ProductsService {
   constructor(private prismaService: PrismaService) {}
 
+  /**
+   * @description List Products.
+   */
   findAll() {
     return this.prismaService.product.findMany();
   }
 
+  /**
+   * @description List Product by id.
+   */
   async findOneById(id: number) {
     const product = await this.prismaService.product.findUnique({
       where: { id },
@@ -26,6 +32,9 @@ export class ProductsService {
     return product;
   }
 
+  /**
+   * @description List Product by name.
+   */
   private findOneByName(name: string) {
     return this.prismaService.product.findFirst({
       where: {
@@ -37,6 +46,9 @@ export class ProductsService {
     });
   }
 
+  /**
+   * @description Create Product.
+   */
   async create(createProductDto: CreateProductDto) {
     const existProduct = await this.findOneByName(createProductDto.name);
 
