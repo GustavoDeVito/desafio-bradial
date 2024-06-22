@@ -23,7 +23,7 @@ model Product {
 
 model Movement {
   id        Int          @id @default(autoincrement())
-  type      MovimentType
+  type      MovementType
   products  Product      @relation(fields: [productId], references: [id])
   productId Int
   quantity  Int
@@ -34,7 +34,7 @@ model Movement {
   @@map("movements")
 }
 
-enum MovimentType {
+enum MovementType {
   INPUT
   OUTPUT
 }
