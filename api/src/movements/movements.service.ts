@@ -63,6 +63,10 @@ export class MovementsService {
       createMovementDto.productId,
     );
 
+    if (!product.status) {
+      throw new BadRequestException('Produto está inativo.');
+    }
+
     await this.prismaService.$transaction(async (tx) => {
       const newProductQuantity =
         createMovementDto.type === MovementType.INPUT
