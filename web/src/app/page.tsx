@@ -1,18 +1,17 @@
 "use client";
 
-import { Button } from "@nextui-org/react";
-import { toast } from "sonner";
+import MovementTable from "@/components/movement/table";
+import { Tab, Tabs } from "@nextui-org/react";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <Button
-        variant="solid"
-        color="primary"
-        onPress={() => toast.info("Event has been created.")}
-      >
-        Notification
-      </Button>
+    <main className="max-w-5xl mx-auto">
+      <Tabs aria-label="Options" color="primary" disabledKeys={["product"]} className="flex justify-center my-10">
+        <Tab key="movement" title="Movimentações no Estoque">
+          <MovementTable />
+        </Tab>
+        <Tab key="product" title="Produtos"></Tab>
+      </Tabs>
     </main>
   );
 }
