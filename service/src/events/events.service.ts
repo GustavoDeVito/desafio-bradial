@@ -7,6 +7,10 @@ import { isEmail, isNotEmpty } from 'class-validator';
 export class EventsService {
   constructor(private readonly mailsService: MailsService) {}
 
+  /**
+   * @description Consume events and sends an email.
+   * @param payload DTO of event.
+   */
   async consumer(payload: ConsumerDto) {
     if (
       isEmail(payload?.to) &&
