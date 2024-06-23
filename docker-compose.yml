@@ -13,3 +13,16 @@ services:
       - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT,PLAINTEXT:PLAINTEXT
       - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:9093
       - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+
+  services:
+    build:
+      context: ./service
+      dockerfile: Dockerfile
+    depends_on:
+      - kafka
+    environment:
+      - MAILER_HOST=sandbox.smtp.mailtrap.io
+      - MAILER_PORT=2525
+      - MAILER_USER=37872e14f99a20
+      - MAILER_PASS=1f650f42f69ff4
+      - BROKER_HOST=kafka:9092

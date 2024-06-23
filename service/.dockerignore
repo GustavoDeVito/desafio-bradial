@@ -1,0 +1,6 @@
+.env
+.nestjs_repl_history
+.gitignore
+node_modules
+dist
+test
