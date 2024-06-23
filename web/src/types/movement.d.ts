@@ -1,4 +1,4 @@
-enum MovementTypeEnum {
+export enum MovementTypeEnum {
   INPUT,
   OUTPUT,
 }

@@ -102,7 +102,7 @@ export default function ProductTable() {
                 color="default"
                 size="sm"
                 isIconOnly
-                isDisabled
+                onPress={() => router.push(`/products/${product.id}`)}
               >
                 <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
                   <EyeIcon />
@@ -115,7 +115,7 @@ export default function ProductTable() {
           return cellValue?.toString();
       }
     },
-    []
+    [router]
   );
 
   const onSearchChange = useCallback((value?: string) => {
