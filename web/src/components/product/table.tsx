@@ -3,6 +3,7 @@
 import { useFetch } from "@/hooks/useFetch";
 import { ProductsProps } from "@/types/product";
 import {
+  Button,
   Chip,
   Input,
   Pagination,
@@ -13,11 +14,18 @@ import {
   TableColumn,
   TableHeader,
   TableRow,
+  Tooltip,
 } from "@nextui-org/react";
 import { Key, useCallback, useMemo, useState } from "react";
 import { SearchIcon } from "../icon/search";
+import { PlusIcon } from "@radix-ui/react-icons";
+import { WarningIcon } from "../icon/warning";
+import { EyeIcon } from "../icon/eye";
+import { useRouter } from "next/navigation";
 
 export default function ProductTable() {
+  const router = useRouter();
+
   const [filterValue, setFilterValue] = useState("");
   const [page, setPage] = useState(1);
   const rowsPerPage = 10;
@@ -58,11 +66,20 @@ export default function ProductTable() {
           );
 
         case "alertLimit":
-          return (
-            <div className="flex flex-col">
-              <p className="text-bold text-small">{product.alertLimit}</p>
-            </div>
-          );
+          const isShowAlertLimit =
+            product.quantity <= product.alertLimit && product.status;
+
+          return isShowAlertLimit ? (
+            <Tooltip
+              color="warning"
+              content="O produto está na zona de alerta."
+              showArrow
+            >
+              <span className="flex justify-center text-warning">
+                <WarningIcon />
+              </span>
+            </Tooltip>
+          ) : null;
 
         case "status":
           return (
@@ -74,6 +91,24 @@ export default function ProductTable() {
             >
               {product.status ? "Ativo" : "Inativo"}
             </Chip>
+          );
+
+        case "actions":
+          return (
+            <Tooltip color="default" content="Detalhes" showArrow>
+              <Button
+                aria-label="details"
+                variant="light"
+                color="default"
+                size="sm"
+                isIconOnly
+                isDisabled
+              >
+                <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
+                  <EyeIcon />
+                </span>
+              </Button>
+            </Tooltip>
           );
 
         default:
@@ -99,21 +134,27 @@ export default function ProductTable() {
 
   const topContent = useMemo(() => {
     return (
-      <div className="flex flex-col gap-4">
-        <div className="flex justify-between gap-3 items-end">
-          <Input
-            isClearable
-            className="w-full sm:max-w-[30%]"
-            placeholder="Buscar por nome"
-            startContent={<SearchIcon />}
-            value={filterValue}
-            onClear={() => onClear()}
-            onValueChange={onSearchChange}
-          />
-        </div>
+      <div className="flex justify-between">
+        <Input
+          isClearable
+          className="w-full sm:max-w-[30%]"
+          placeholder="Buscar por nome"
+          startContent={<SearchIcon />}
+          value={filterValue}
+          onClear={() => onClear()}
+          onValueChange={onSearchChange}
+        />
+
+        <Button
+          color="primary"
+          endContent={<PlusIcon />}
+          onPress={() => router.push("/products/add")}
+        >
+          Adicionar Produto
+        </Button>
       </div>
     );
-  }, [filterValue, onSearchChange, onClear]);
+  }, [filterValue, onSearchChange, onClear, router]);
 
   const bottomContent = useMemo(() => {
     if (pages > 0) {
@@ -158,6 +199,7 @@ export default function ProductTable() {
           { uid: "quantity", name: "Quantidade" },
           { uid: "alertLimit", name: "Alerta de Limite" },
           { uid: "status", name: "Status" },
+          { uid: "actions", name: "" },
         ]}
       >
         {(column) => (
