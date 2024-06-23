@@ -20,8 +20,11 @@ import {
 import { PlusIcon } from "@radix-ui/react-icons";
 import { Key, useCallback, useMemo, useState } from "react";
 import { MovementAdd } from "./add";
+import { useRouter } from "next/navigation";
 
 export default function MovementTable() {
+  const router = useRouter();
+
   const [page, setPage] = useState(1);
   const rowsPerPage = 10;
 
@@ -62,7 +65,16 @@ export default function MovementTable() {
         case "product":
           return (
             <div className="flex flex-col">
-              <p className="text-bold text-small">{movement.products.name}</p>
+              <button
+                className="w-fit h-fit m-0 p-0"
+                onClick={() =>
+                  router.push(`/products/${movement.products.id}?tab=movement`)
+                }
+              >
+                <p className="text-left text-bold text-small cursor-pointer hover:text-primary hover:underline">
+                  {movement.products.name}
+                </p>
+              </button>
             </div>
           );
 
@@ -98,7 +110,7 @@ export default function MovementTable() {
           return cellValue?.toString();
       }
     },
-    []
+    [router]
   );
 
   const topContent = useMemo(() => {

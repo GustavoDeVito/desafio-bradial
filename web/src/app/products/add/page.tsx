@@ -103,6 +103,7 @@ export default function ProductAdd() {
             <Spacer y={2} />
 
             <Input
+              type="number"
               variant="bordered"
               color="primary"
               label="Alerta de Limite"

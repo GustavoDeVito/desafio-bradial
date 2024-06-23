@@ -40,13 +40,16 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>;
 
-export default function Product() {
+export default function Product({
+  searchParams,
+}: Readonly<{
+  searchParams: { tab?: string };
+}>) {
   const router = useRouter();
   const params = useParams<{ id: string }>();
 
   const {
     control,
-    register,
     handleSubmit,
     formState: { errors },
     reset,
@@ -58,12 +61,9 @@ export default function Product() {
     },
   });
 
-  const { data: product, isLoading } = useFetch<ProductProps>(
-    `/products/${params?.id}`,
-    {
-      revalidateOnFocus: false,
-    }
-  );
+  const { data: product } = useFetch<ProductProps>(`/products/${params?.id}`, {
+    revalidateOnFocus: false,
+  });
 
   const updateProduct = useMutate("PATCH", `/products/${params?.id}`);
 
@@ -73,7 +73,7 @@ export default function Product() {
 
       reset({
         name,
-        description,
+        description: description ?? undefined,
         alertLimit,
         status,
       });
@@ -179,7 +179,9 @@ export default function Product() {
             color="danger"
             variant="light"
             isDisabled={updateProduct.isLoading}
-            onPress={() => router.replace("/?tab=product")}
+            onPress={() =>
+              router.replace(`/?tab=${searchParams?.tab ?? "product"}`)
+            }
           >
             Voltar
           </Button>
