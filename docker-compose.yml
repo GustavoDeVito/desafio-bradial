@@ -20,12 +20,8 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - kafka
-    environment:
-      - MAILER_HOST=sandbox.smtp.mailtrap.io
-      - MAILER_PORT=2525
-      - MAILER_USER=37872e14f99a20
-      - MAILER_PASS=1f650f42f69ff4
-      - BROKER_HOST=kafka:9092
+    env_file:
+      - stack.env
 
   postgresql:
     image: postgres:latest
@@ -37,3 +33,15 @@ services:
       POSTGRES_PASSWORD: pass
     volumes:
       - ./database:/var/lib/postgresql/data
+
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    depends_on:
+      - kafka
+      - postgresql
+    env_file:
+      - stack.env
+    ports:
+      - "3000:3000"
