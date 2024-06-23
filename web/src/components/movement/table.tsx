@@ -7,10 +7,7 @@ import {
   Button,
   Chip,
   ChipProps,
-  Dropdown,
-  Input,
   Pagination,
-  Selection,
   Spinner,
   Table,
   TableBody,
@@ -18,14 +15,21 @@ import {
   TableColumn,
   TableHeader,
   TableRow,
+  useDisclosure,
 } from "@nextui-org/react";
+import { PlusIcon } from "@radix-ui/react-icons";
 import { Key, useCallback, useMemo, useState } from "react";
+import { MovementAdd } from "./add";
 
 export default function MovementTable() {
   const [page, setPage] = useState(1);
   const rowsPerPage = 10;
 
-  const { data: movements, isLoading } = useFetch<MovementsProps>(
+  const {
+    data: movements,
+    isLoading,
+    mutate,
+  } = useFetch<MovementsProps>(
     `/movements?page=${page}&pageSize=${rowsPerPage}`,
     {
       keepPreviousData: true,
@@ -33,6 +37,8 @@ export default function MovementTable() {
   );
 
   const loadingState = isLoading || movements?.items === 0 ? "loading" : "idle";
+
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const pages = useMemo(() => {
     return movements?.items ? Math.ceil(movements.items / rowsPerPage) : 0;
@@ -95,6 +101,16 @@ export default function MovementTable() {
     []
   );
 
+  const topContent = useMemo(() => {
+    return (
+      <div className="flex justify-end">
+        <Button color="primary" endContent={<PlusIcon />} onPress={onOpen}>
+          Adicionar Movimentação
+        </Button>
+      </div>
+    );
+  }, [onOpen]);
+
   const bottomContent = useMemo(() => {
     if (pages > 0) {
       return (
@@ -123,45 +139,54 @@ export default function MovementTable() {
   }, [movements?.items, page, pages]);
 
   return (
-    <Table
-      aria-label="Table to movements of products"
-      isHeaderSticky
-      bottomContent={bottomContent}
-      bottomContentPlacement="outside"
-      selectionMode="none"
-      topContentPlacement="outside"
-    >
-      <TableHeader
-        columns={[
-          { uid: "product", name: "Produto" },
-          { uid: "type", name: "Tipo de Movimentação" },
-          { uid: "quantity", name: "Quantidade" },
-          { uid: "createdAt", name: "Data" },
-        ]}
+    <>
+      <MovementAdd
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        mutate={mutate}
+      />
+
+      <Table
+        aria-label="Table to movements of products"
+        isHeaderSticky
+        bottomContent={bottomContent}
+        bottomContentPlacement="outside"
+        selectionMode="none"
+        topContent={topContent}
+        topContentPlacement="outside"
       >
-        {(column) => (
-          <TableColumn
-            key={column.uid}
-            align={column.uid === "product" ? "start" : "center"}
-          >
-            {column.name}
-          </TableColumn>
-        )}
-      </TableHeader>
-      <TableBody
-        emptyContent="Nenhuma movimentação encontrada"
-        items={movements?.data ?? []}
-        loadingContent={<Spinner />}
-        loadingState={loadingState}
-      >
-        {(item) => (
-          <TableRow key={item.id}>
-            {(columnKey) => (
-              <TableCell>{renderCell(item, columnKey)}</TableCell>
-            )}
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
+        <TableHeader
+          columns={[
+            { uid: "product", name: "Produto" },
+            { uid: "type", name: "Tipo de Movimentação" },
+            { uid: "quantity", name: "Quantidade" },
+            { uid: "createdAt", name: "Data" },
+          ]}
+        >
+          {(column) => (
+            <TableColumn
+              key={column.uid}
+              align={column.uid === "product" ? "start" : "center"}
+            >
+              {column.name}
+            </TableColumn>
+          )}
+        </TableHeader>
+        <TableBody
+          emptyContent="Nenhuma movimentação encontrada"
+          items={movements?.data ?? []}
+          loadingContent={<Spinner />}
+          loadingState={loadingState}
+        >
+          {(item) => (
+            <TableRow key={item.id}>
+              {(columnKey) => (
+                <TableCell>{renderCell(item, columnKey)}</TableCell>
+              )}
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </>
   );
 }
