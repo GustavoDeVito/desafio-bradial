@@ -1,16 +1,19 @@
 "use client";
 
 import MovementTable from "@/components/movement/table";
+import ProductTable from "@/components/product/table";
 import { Tab, Tabs } from "@nextui-org/react";
 
 export default function Home() {
   return (
     <main className="max-w-5xl mx-auto">
-      <Tabs aria-label="Options" color="primary" disabledKeys={["product"]} className="flex justify-center my-10">
+      <Tabs aria-label="Options" color="primary" className="flex justify-center my-10">
         <Tab key="movement" title="Movimentações no Estoque">
           <MovementTable />
         </Tab>
-        <Tab key="product" title="Produtos"></Tab>
+        <Tab key="product" title="Produtos">
+          <ProductTable />
+        </Tab>
       </Tabs>
     </main>
   );
