@@ -79,6 +79,9 @@ export class ProductsService {
             quantity: true,
             createdAt: true,
           },
+          orderBy: {
+            createdAt: 'desc',
+          },
         },
         status: true,
       },

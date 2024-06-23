@@ -4,12 +4,14 @@ import { ProductsService } from 'src/products/products.service';
 import { CreateMovementDto } from './dto/create-movement.dto';
 import { MovementType } from '@prisma/client';
 import { QueryMovementDto } from './dto/query-movement.dto';
+import { MailsService } from 'src/mails/mails.service';
 
 @Injectable()
 export class MovementsService {
   constructor(
     private prismaService: PrismaService,
     private readonly productsService: ProductsService,
+    private readonly mailsService: MailsService,
   ) {}
 
   /**
@@ -38,7 +40,7 @@ export class MovementsService {
       skip,
       take,
       orderBy: {
-        createdAt: 'asc',
+        createdAt: 'desc',
       },
     });
 
@@ -69,8 +71,16 @@ export class MovementsService {
 
       if (newProductQuantity < 0) {
         throw new BadRequestException(
-          'Quantidade informda para movimentação insuficiente do produto no estoque.',
+          'A quantidade informada para a movimentação é insuficiente em relação ao estoque disponível do produto.',
         );
+      }
+
+      // verify alert limit
+      if (
+        createMovementDto.type === MovementType.OUTPUT &&
+        newProductQuantity <= product.alertLimit
+      ) {
+        this.mailsService.alertLimit(product.name);
       }
 
       await tx.product.update({
