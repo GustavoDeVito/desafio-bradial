@@ -26,3 +26,14 @@ services:
       - MAILER_USER=37872e14f99a20
       - MAILER_PASS=1f650f42f69ff4
       - BROKER_HOST=kafka:9092
+
+  postgresql:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: bradial
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: pass
+    volumes:
+      - ./database:/var/lib/postgresql/data

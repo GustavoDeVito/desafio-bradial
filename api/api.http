@@ -1,0 +1,50 @@
+### @name ListProducts
+GET http://localhost:3000/products?page=1&pageSize=5 HTTP/1.1
+
+### @name ListProductsWithSearch
+GET http://localhost:3000/products?search=apa&page=1&pageSize=5 HTTP/1.1
+
+### @name ListProduct
+GET http://localhost:3000/products/4 HTTP/1.1
+
+### @name CreateProduct
+POST http://localhost:3000/products HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Caneta Azul",
+    "alertLimit": 10
+}
+
+### @name UpdateProduct
+PATCH http://localhost:3000/products/4 HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Pasta de dente",
+    "alertLimit": 2,
+    "status": true
+}
+
+### @name ListMovements
+GET http://localhost:3000/movements?page=1&pageSize=5 HTTP/1.1
+
+### @name CreateMovement_INPUT
+POST http://localhost:3000/movements HTTP/1.1
+Content-Type: application/json
+
+{
+    "type": "INPUT",
+    "productId": 4,
+    "quantity": 100
+}
+
+### @name CreateMovement_OUTPUT
+POST http://localhost:3000/movements HTTP/1.1
+Content-Type: application/json
+
+{
+    "type": "OUTPUT",
+    "productId": 4,
+    "quantity": 10
+}
