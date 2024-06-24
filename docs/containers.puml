@@ -12,7 +12,7 @@ SHOW_PERSON_PORTRAIT()
 
 AddRelTag("dashed", $lineStyle = DashedLine())
 
-Person(user, "Usuário", "Pessoa responsável por cadastras novos produtos e a movimentação do estoque")
+Person(user, "Usuário", "Pessoa responsável por cadastrar novos produtos e a movimentação do estoque")
 Person(manager, "Gerente", "Pessoa responsável pelo estoque")
 
 System_Boundary(system, "APP") {
@@ -20,7 +20,7 @@ System_Boundary(system, "APP") {
 
     Container(web, "Web", "NextJS", "Provem recursos para gerenciar o estoque de produtos", $sprite = "nextjs_line")
     Container(api, "API", "NestJS", "Provem funcionalidades via JSON/HTTPS", $sprite = "nestjs")
-    ContainerDb(database, "Banco de Dados", "Oracle", "Armazena os produtos e as movimentações do estoque", $sprite = "postgresql")
+    ContainerDb(database, "Banco de Dados", "PostgreSQL", "Armazena os produtos e as movimentações do estoque", $sprite = "postgresql")
 
     Rel(user, web, "Visualiza e controla o estoque de produtos usando", "HTTPS", $tags = "dashed")
     Rel(web, api, "Realiza chamadas API para", "JSON/HTTPS", $tags = "dashed")
