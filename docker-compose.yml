@@ -45,3 +45,14 @@ services:
       - stack.env
     ports:
       - "3000:3000"
+
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    depends_on:
+      - api
+    env_file:
+      - stack.env
+    ports:
+      - "1000:3000"
