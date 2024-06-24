@@ -29,3 +29,27 @@ Desafio da Bradial para desenvolver um sistema para gestão de estoque de produt
   - Formulário para registrar a entrada de novos produtos no estoque.
   - Formulário para registrar a saída de produtos do estoque.
   - Exibir um histórico de entradas e saídas de cada produto.
+
+## 📋 Pré-requisitos
+
+1. Certifique-se de ter o Docker e o Docker Compose instalados em sua máquina.
+
+2. Crie um arquivo chamado `stack.env` no diretório raiz do projeto com as seguintes variáveis de ambiente:
+
+    ```env
+    DATABASE_URL=
+    MAILER_HOST=
+    MAILER_PORT=
+    MAILER_USER=
+    MAILER_PASS=
+    BROKER_HOST=
+    NEXT_PUBLIC_API=
+    ```
+
+3. Crie uma conta no [Mailtrap](https://mailtrap.io/) para usar o sistema de email. Insira as credenciais fornecidas pelo Mailtrap nas variáveis `MAILER_HOST`, `MAILER_PORT`, `MAILER_USER` e `MAILER_PASS` no arquivo `stack.env`.
+
+4. Use o `docker-compose` para rodar o projeto. No terminal, navegue até o diretório onde o `docker-compose.yml` está localizado e execute o comando:
+
+```sh
+    docker-compose up --build
+```
