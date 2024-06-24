@@ -152,6 +152,9 @@ export function MovementAdd({
                       label="Produto"
                       isRequired
                       items={products?.data ?? []}
+                      disabledKeys={products?.data
+                        .filter((item) => !item.status)
+                        .map((item) => item.id.toString())}
                       isLoading={isLoading}
                       inputValue={filterValue}
                       onInputChange={setFilterValue}
