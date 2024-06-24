@@ -39,7 +39,7 @@ export default function MovementTable() {
     }
   );
 
-  const loadingState = isLoading || movements?.items === 0 ? "loading" : "idle";
+  const loadingState = isLoading ? "loading" : "idle";
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 

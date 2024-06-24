@@ -18,6 +18,7 @@ services:
     build:
       context: ./service
       dockerfile: Dockerfile
+    restart: always
     depends_on:
       - kafka
     env_file:
@@ -31,6 +32,11 @@ services:
       POSTGRES_DB: bradial
       POSTGRES_USER: root
       POSTGRES_PASSWORD: pass
+    healthcheck:
+      test: ["CMD", "pg_isready", "-d", "bradial", "-U", "root"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
     volumes:
       - ./database:/var/lib/postgresql/data
 
@@ -38,13 +44,17 @@ services:
     build:
       context: ./api
       dockerfile: Dockerfile
+    restart: always
     depends_on:
-      - kafka
-      - postgresql
+      postgresql:
+        condition: service_healthy
+      kafka:
+        condition: service_started
     env_file:
       - stack.env
     ports:
       - "3000:3000"
+    entrypoint: ["/usr/local/bin/entrypoint.sh"]
 
   web:
     build:
