@@ -59,3 +59,7 @@ Desafio da Bradial para desenvolver um sistema para gestão de estoque de produt
 ```sh
   docker-compose restart api service
 ```
+
+## ☕ Usando
+
+Após iniciar a aplicação, acesse-a no navegador através do endereço `http://localhost:1000`.
