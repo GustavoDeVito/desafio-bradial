@@ -1,5 +1,3 @@
-## Readme
-
 # Desafio Bradial
 
 [![Stack](https://skillicons.dev/icons?i=nextjs,nestjs,postgresql,kafka,docker&theme=light)](https://skillicons.dev)
