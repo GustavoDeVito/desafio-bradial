@@ -7,7 +7,7 @@ SHOW_PERSON_PORTRAIT()
 
 AddRelTag("dashed", $lineStyle = DashedLine())
 
-Person(user, "Usuário", "Pessoa responsável por cadastras novos produtos e a movimentação do estoque")
+Person(user, "Usuário", "Pessoa responsável por cadastrar novos produtos e a movimentação do estoque")
 Person(manager, "Gerente", "Pessoa responsável pelo estoque")
 
 System(app, "APP", "Aplicação para gerenciar o estoque de produtos")
