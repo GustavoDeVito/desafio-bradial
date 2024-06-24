@@ -36,20 +36,26 @@ Desafio da Bradial para desenvolver um sistema para gestão de estoque de produt
 
 2. Crie um arquivo chamado `stack.env` no diretório raiz do projeto com as seguintes variáveis de ambiente:
 
-    ```env
-    DATABASE_URL=
-    MAILER_HOST=
-    MAILER_PORT=
-    MAILER_USER=
-    MAILER_PASS=
-    BROKER_HOST=
-    NEXT_PUBLIC_API=
-    ```
+```env
+  DATABASE_URL=
+  MAILER_HOST=
+  MAILER_PORT=
+  MAILER_USER=
+  MAILER_PASS=
+  BROKER_HOST=
+  NEXT_PUBLIC_API=
+```
 
 3. Crie uma conta no [Mailtrap](https://mailtrap.io/) para usar o sistema de email. Insira as credenciais fornecidas pelo Mailtrap nas variáveis `MAILER_HOST`, `MAILER_PORT`, `MAILER_USER` e `MAILER_PASS` no arquivo `stack.env`.
 
 4. Use o `docker-compose` para rodar o projeto. No terminal, navegue até o diretório onde o `docker-compose.yml` está localizado e execute o comando:
 
 ```sh
-    docker-compose up --build
+  docker-compose up --build
+```
+
+**Observação:** Caso os containers `api` e `service` não iniciem, reinicie apenas esses containers utilizando o comando:
+
+```sh
+  docker-compose restart api service
 ```
